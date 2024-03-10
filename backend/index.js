@@ -23,7 +23,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/test')
 
   app.get('/get', async (req, res) => {
     try {
-      const todo = await TodoModel.find();
+      const todo = await TodoModel.find().sort({createdAt: -1});
       res.json(todo);
     } catch (error) {
       res.status(500).json({ error: 'An error occurred' });
@@ -31,18 +31,11 @@ mongoose.connect('mongodb://127.0.0.1:27017/test')
   });
 
 
-  app.put('/update/:id', (req, res)=>{
-    const {id} = req.params;
-    TodoModel.findByIdAndUpdate({_id: id}, {done: true})
-    .then(result => res.json(result))
-    .catch(err => res.json(err))
-  })
-
   
 
-app.post('/add', (req, res) => {
+app.post('/add', async (req, res) => {
   const todo = req.body.task;
-  TodoModel.create({
+  await TodoModel.create({
     todo: todo
   })
     .then((result) => {
@@ -56,18 +49,37 @@ app.post('/add', (req, res) => {
 });
 
 
-app.delete('/delete/:id', (req, res) => {
-  const { id } = req.params;
-  TodoModel.findByIdAndDelete({_id: id})
-    .then(() => {
-      res.json("Deleted successfully");
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({ error: "Failed to delete item" });
-    });
+app.put('/update/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const updatedTodo = await TodoModel.findByIdAndUpdate(id, { done: true });
+    res.json(updatedTodo);
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+app.delete('/delete/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    await TodoModel.findByIdAndDelete(id);
+    res.json("Deleted successfully");
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
+
+app.delete('/delete', async (req, res) => {
+  try {
+    await TodoModel.deleteMany()
+    res.json("Deleted successfully");
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
 
 
+
+module.exports = app;
 
 
