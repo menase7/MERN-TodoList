@@ -1,1 +1,1 @@
-this is readme file
+this project is done by tailwind css, react js, node js/ express.js and mognogb 
