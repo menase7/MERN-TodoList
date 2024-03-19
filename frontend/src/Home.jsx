@@ -61,7 +61,7 @@ function Home() {
       <h2 className='bg-white text-xl my-5 p-4 rounded-xl'>ToDo List</h2>
       <Create setTodos={setTodos} todos={todos}/>
       <div className='h-[450px] w-[500px]  overflow-auto'>
-      <button onClick={deleteAll} className='bg-red-400 rounded-full px-4 text-white'>Clear all</button>
+      <button onClick={deleteAll} className='bg-red-300 rounded-full px-4 text-white'>Clear all</button>
       {
         todos.length === 0 ? (
           <div className='bg-white w-full h-full flex justify-center items-center text-lg'>No todos found</div>

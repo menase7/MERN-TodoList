@@ -7,9 +7,8 @@ const Create = ({ setTodos, todos }) => {
     axios.post("http://localhost:3001/add", { task: task })
     .then((result) => {
       console.log(result);
-      // Update the local state with the new todo
-      setTodos([...todos, result.data]); // Assuming result.data contains the new todo
-      setTask(''); // Clear input field after adding
+      setTodos([...todos, result.data]); 
+      setTask(''); 
     })
     .catch(err => console.log(err));
 }
@@ -20,7 +19,7 @@ const handleKeyPress=(event)=>{
 }
 
   return (
-    <div className='flex gap-5 mb-10'>
+    <div className='flex gap-5 mb-9'>
       <input className='w-[400px] max-sm:w-[300px] h-10 border-[1px] border-black rounded-full pl-4' 
       value={task} type="text" 
       onKeyPress={handleKeyPress}
